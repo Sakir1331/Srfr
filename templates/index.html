@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نموذج إدخال البيانات</title>
+    <style>
+        /* تنسيق الصفحة بالكامل */
+        body {
+            font-family: 'Tahoma', Arial, sans-serif;
+            background: linear-gradient(to left, #4facfe, #00f2fe);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #333;
+            direction: rtl; /* دعم الكتابة من اليمين إلى اليسار */
+        }
+
+        /* تصميم النموذج */
+        form {
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input, textarea, button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: right; /* محاذاة النص إلى اليمين */
+        }
+
+        input:focus, textarea:focus {
+            border-color: #4facfe;
+            outline: none;
+            box-shadow: 0 0 5px rgba(79, 172, 254, 0.8);
+        }
+
+        button {
+            background: linear-gradient(to left, #4facfe, #00f2fe);
+            border: none;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 18px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body>
+    <form id="data-form">
+        <h1>نموذج إدخال البيانات</h1>
+        <label for="name">الاسم:</label>
+        <input type="text" id="name" name="name" placeholder="أدخل اسمك" required>
+
+        <label for="email">البريد الإلكتروني:</label>
+        <input type="email" id="email" name="email" placeholder="أدخل بريدك الإلكتروني" required>
+
+        <label for="message">الرسالة:</label>
+        <textarea id="message" name="message" placeholder="اكتب رسالتك هنا" required></textarea>
+
+        <button type="submit">إرسال</button>
+    </form>
+
+    <script>
+        const form = document.getElementById('data-form');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // الحصول على البيانات من الحقول
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            // إرسال البيانات إلى الخادم
+            try {
+                const response = await fetch('https://YOUR_SERVER_URL/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name, email, message }),
+                });
+
+                const result = await response.json();
+                alert(result.message);
+            } catch (error) {
+                alert('حدث خطأ أثناء إرسال البيانات!');
+            }
+        });
+    </script>
+</body>
+</html>
