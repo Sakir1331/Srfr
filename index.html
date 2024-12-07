@@ -98,19 +98,21 @@
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            // الحصول على البيانات من الحقول
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
+            // الحصول على بيانات النموذج وإعدادها لإرسالها
+            const formData = new FormData(form);
+            const formObject = {};
+            formData.forEach((value, key) => {
+                formObject[key] = value;
+            });
+
+            // تحويل البيانات إلى تنسيق مناسب لإرسالها
+            const formBody = new URLSearchParams(formObject);
 
             // إرسال البيانات إلى الخادم
             try {
-                const response = await fetch('https://76dc5eb3-0529-4711-8b00-c1ce93c449e9-00-10ohblezsc2i5.sisko.replit.dev/submit', {
+                const response = await fetch('http://127.0.0.1:5000/', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ name, email, message }),
+                    body: formBody,
                 });
 
                 const result = await response.json();
